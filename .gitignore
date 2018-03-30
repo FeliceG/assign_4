@@ -1,0 +1,8 @@
+# System Files
+.DS_Store
+
+# database credentials
+.env
+
+# dependencies
+node_modules/
