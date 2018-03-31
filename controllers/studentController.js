@@ -4,11 +4,11 @@ var Student = require('../models/studentModel');
 //Create the controller
 var studentController = {};
 
+//Render the student registration form and display any students
+//in the database.
 studentController.list = function(req, res) {
-  console.log("Listing students");
   Student.find({})
     .then((students)=>{
-      console.log("Students: " + students);
       res.render('students', {
         "students": students
     });
@@ -18,8 +18,8 @@ studentController.list = function(req, res) {
   });
 }
 
+//Add the student to the database and display on the home page
 studentController.create = function(req, res) {
-  console.log("create");
   var student = new Student({
     first: req.body.first,
     last: req.body.last,
@@ -27,21 +27,19 @@ studentController.create = function(req, res) {
     city: req.body.city,
     state: req.body.state
   });
-  console.log("just before save students");
-  console.log(student);
   student.save()
   .then((s)=>{
-    console.log("Saving: " + s);
-    res.redirect('/students');
+    res.redirect('/');
   })
   .catch((err)=> {
     console.log(err);
   });
 }
 
+//Render the Edit/Delete page with the information for
+//the student specified by the id number
 studentController.read = function(req, res) {
-  console.log("Reading for id: " + req.params.studentid);
-  Student.findOne({_id: req.params.studentid})
+Student.findOne({ _id: req.params.studentid})
   .then((student) => {
      res.render('edit_student', {
       student: student });
@@ -51,8 +49,10 @@ studentController.read = function(req, res) {
   });
 }
 
+//Update the information entered for the specified by the
+//student id
+
 studentController.update = function(req, res) {
-  console.log("Listing students");
   Student.findByIdAndUpdate(
     req.params.studentid,
     {
@@ -66,18 +66,18 @@ studentController.update = function(req, res) {
     }
   )
   .then((student) => {
-    res.redirect('/students');
+    res.redirect('/');
   })
   .catch((err)=> {
     console.log(err);
   });
 }
 
+//Delete the student specified by the student id
 studentController.delete = function(req, res) {
-  console.log("Listing students");
   Student.findByIdAndRemove(req.params.studentid)
   .then((student) => {
-    res.redirect('/students');
+    res.redirect('/');
   })
   .catch((err)=> {
     console.log(err);

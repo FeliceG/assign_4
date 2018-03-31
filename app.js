@@ -1,29 +1,24 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
 var express = require('express');
 var path = require('path');
 var url = require('url');
-var students = require('./routes/students');
+var students = require('./routes/students.js');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var app = express();
+
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://${process.env.DB_USER}:${process.env.DB_PWD}@cscie31-shard-00-00-f3ezc.mongodb.net:27017,cscie31-shard-00-01-f3ezc.mongodb.net:27017,cscie31-shard-00-02-f3ezc.mongodb.net:27017/${process.env.DB_NAME}?ssl=true&replicaSet=cscie31-shard-0&authSource=admin');
+mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PWD}@cscie31-shard-00-00-f3ezc.mongodb.net:27017,cscie31-shard-00-01-f3ezc.mongodb.net:27017,cscie31-shard-00-02-f3ezc.mongodb.net:27017/${process.env.DB_NAME}?ssl=true&replicaSet=cscie31-shard-0&authSource=admin`);
 var db = mongoose.connection;
 
 db.on('error', (err)=>{console.error('connection error:${err}'); });
 console.log('db connected');
+var app = express();
 
-//app.use(logger('dev'));
-//app.use(bodyParser.json());
+app.use(bodyParser.json());
 
-app.use(cookieParser('cscie31-secret'));
-app.use(session({
-  secret:"cscie31",
-  resave:"true",
-  saveUninitiatlized: "true"
-}));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
