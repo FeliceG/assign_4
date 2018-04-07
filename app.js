@@ -4,7 +4,7 @@ var express = require('express');
 var path = require('path');
 var url = require('url');
 var students = require('./routes/students.js');
-var cookieParser = require('cookie-parser');
+var apistudents = require('./routes/api/api-students.js');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
@@ -21,6 +21,7 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/static', express.static(path.join(__dirname, 'public')));
+app.use('/api/students', apistudents);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

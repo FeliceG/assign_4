@@ -1,7 +1,7 @@
 {
-  "name": "assign_4",
+  "name": "assign_5",
   "version": "1.0.0",
-  "description": "cscie31 assignment 4",
+  "description": "cscie31 assignment 5",
   "main": "students.js",
   "scripts": {
     "start": "node ./bin/www",
